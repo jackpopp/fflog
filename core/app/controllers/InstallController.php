@@ -3,6 +3,7 @@
 class InstallController extends BaseController 
 {
 	protected $layout = 'master';
+	private $baseFile = "/../../../files/";
 
 	/**
 	* Renders the installer view
@@ -23,7 +24,7 @@ class InstallController extends BaseController
 
 	public function writeSettings()
 	{
-		file_put_contents(__DIR__.'/../../../files/site_settings.json', $this->makeSettingsFile(Input::all()));
+		file_put_contents(__DIR__.$this->basePath.'site_settings.flg', $this->makeSettingsFile(Input::all()));
 		return Redirect::to('/');
 	}
 
@@ -38,7 +39,8 @@ class InstallController extends BaseController
 								'email'    => $input['email'],
 								'password' => Hash::make($input['password'])
 							)
-						)
+						),
+			'theme'     => 'default'
 		);
 		return json_encode($settings);
 	}

@@ -92,6 +92,6 @@ Route::filter('csrf', function()
 
 Route::filter('installCheck', function()
 {
-    if ( ! file_exists(__DIR__.'/../../files/site_settings.json'))
+    if ( ! file_exists(__DIR__.'/../../files/site_settings.flg'))
 	    return Redirect::to('installer');
 });
