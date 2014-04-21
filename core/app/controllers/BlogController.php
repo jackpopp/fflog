@@ -3,16 +3,9 @@
 class BlogController extends BaseController 
 {
 	
-	// checks before rendering posts
-
-	public function checks()
+	public function index()
 	{
-		echo 'hi';
-	}
-
-	public function all()
-	{
-
+		echo 'index';
 	}
 
 	public function single($id)

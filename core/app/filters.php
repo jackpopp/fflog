@@ -78,3 +78,20 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| Install Check filter
+|--------------------------------------------------------------------------
+|
+| Checks if there is a site settings file and if not redirect to the installer.
+| If we have a site settings file then we can continue with the request.
+|
+*/
+
+Route::filter('installCheck', function()
+{
+    if ( ! file_exists(__DIR__.'/../../files/site_settings.json'))
+	    return Redirect::to('installer');
+});
