@@ -14,7 +14,7 @@
 		<nav class="top-bar" data-topbar>
 			<ul class="title-area">
 				<li class="name">
-					<h1><a href="">Fflog</a></h1>
+					<h1><a href="{{ URL::to('admin')}}">Fflog</a></h1>
 				</li>
 			</ul>
 
