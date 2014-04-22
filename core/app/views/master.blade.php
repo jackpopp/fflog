@@ -10,6 +10,32 @@
 
 <body>
 
+	<header>
+		<nav class="top-bar" data-topbar>
+			<ul class="title-area">
+				<li class="name">
+					<h1><a href="">Fflog</a></h1>
+				</li>
+			</ul>
+
+			<section class="top-bar-section">
+				<!-- Left Nav Section -->
+				<ul class="left">
+					
+				</ul>
+
+				<!-- Right Nav Section -->
+				@if (Session::get('isLoggedIn'))
+					<ul class="right">
+						<li>
+							<a href="{{ URL::to('admin/logout') }}">Logout</a>
+						</li>
+					</ul>
+				@endif
+			</section>
+		</nav>
+	</header>
+
 	@if (Session::get('errorMessage'))
 		<div>
 			{{ Session::get('errorMessage')}}
@@ -20,10 +46,6 @@
 		<div>
 			{{ Session::get('successMessage')}}
 		</div>
-	@endif
-
-	@if (Session::get('isLoggedIn'))
-		<a href="admin/logout">Logout</a>
 	@endif
 
 	{{ $content }}
