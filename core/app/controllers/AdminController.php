@@ -34,7 +34,7 @@ class AdminController extends BaseController
 				return Redirect::to('admin');
 			}
 		}
-		Session::flash('error', 'Username or password incorrect.');
+		Session::flash('errorMessage', 'Username or password incorrect.');
 		return Redirect::to('admin/login');
 	}
 
@@ -64,6 +64,8 @@ class AdminController extends BaseController
 			$mergedPosts = $newPost;
 		//write posts to file
 		file_put_contents(__DIR__.$this->baseDir.'files/blog/posts.flg', json_encode($mergedPosts));
+
+		Session::put('successMessage', 'Blog post added.');
 
 		return Redirect::to(URL::to('admin'));
 	}
