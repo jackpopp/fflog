@@ -1,4 +1,4 @@
-<div class="">
+<div class="row">
 	<h1>Login</h1>
 	<form action="<?=URL::to('admin/login')?>" method="post">
 		<div class="">

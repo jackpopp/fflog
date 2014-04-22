@@ -1,4 +1,4 @@
-<div class="">
+<div class="row">
 	<h1>
 		Add a blog post
 	</h1>
@@ -19,9 +19,9 @@
 	</form>
 </div>
 
-<div>
+<div class="row">
 	<h1>
-		Blog Settings
+		Edit Blog Settings
 	</h1>
 	<div>
 		<form action="{{ URL::to('admin/site-settings') }}" method="post">
@@ -42,7 +42,7 @@
 	</div>
 </div>
 
-<div>
+<div class="row">
 	<h1>
 		Edit Posts
 	</h1>

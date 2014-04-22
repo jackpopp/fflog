@@ -21,9 +21,9 @@ class AdminController extends BaseController
 	public function login()
 	{
 		if (! Session::get('isLoggedIn') )
-			return $this->layout->content = View::make('admin.login');
-
-		return Redirect::to('admin');
+			$this->layout->content = View::make('admin.login');
+		else
+			return Redirect::to('admin');
 	}
 
 	public function logout()
