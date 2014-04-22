@@ -30,6 +30,8 @@ Route::group(array('before' => 'installCheck'), function()
 
 		Route::post('admin/post', 'AdminController@createPost');
 		Route::get('admin', 'AdminController@dashboard');
+		Route::get('admin/posts/edit/{slug}/{key}', 'AdminController@editPost');
+		Route::get('admin/posts/delete/{slug}/{key}', 'AdminController@deletePost');
 
 	});
 

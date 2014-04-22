@@ -11,7 +11,8 @@ class AdminController extends BaseController
 	{
 		$data = array(
 			'themesFolder' => array_diff(scandir(__DIR__.$this->baseDir.'themes'), array('.', '..')),
-			'siteSettings' => json_decode(file_get_contents(__DIR__.$this->baseDir.'files/site_settings.flg'))
+			'siteSettings' => json_decode(file_get_contents(__DIR__.$this->baseDir.'files/site_settings.flg')),
+			'posts' => $this->fetchAllPosts()
 		);
 
 		$this->layout->content = View::make('admin.dashboard', $data);
@@ -86,21 +87,34 @@ class AdminController extends BaseController
 		else
 			$mergedPosts = $newPost;
 		//write posts to file
-		file_put_contents(__DIR__.$this->baseDir.'files/blog/posts.flg', json_encode($mergedPosts));
+		$this->savePosts($mergedPosts);
 
 		Session::flash('successMessage', 'Blog post added.');
 
 		return Redirect::to(URL::to('admin'));
 	}
 
-	public function delete()
+	public function editPost($slug, $key)
 	{
-
+		$post = $this->fetchSinglePost($slug, $key, $this->fetchAllPosts());
 	}
 
-	public function edit()
+	public function updatePost($slug, $key)
 	{
+		$posts = $this->fetchAllPosts();
+		$this->fetchSinglePost($slug, $key, $posts);
+	}
 
+	public function deletePost($slug, $key)
+	{
+		// unset the post and reindex the array
+		$posts = $this->fetchAllPosts();
+		unset($posts[$key]);
+		$posts = array_values($posts);
+		// save the new posts array
+		$this->savePosts($posts);
+		// return us back to admin
+		return Redirect::to('admin');
 	}
 
 	/**
@@ -143,6 +157,33 @@ class AdminController extends BaseController
 			$slug = $slug.'-'.$duplicateValue;
 
 		return $slug;
+	}
+
+	public function fetchAllPosts()
+	{
+		$posts = $this->getDecodedFile(__DIR__.$this->baseDir.'files/blog/posts.flg');
+
+		if (count($posts) == 0)
+			return array();
+		else
+			return $posts;
+	}
+
+	public function fetchSinglePost($slug, $postKey, $posts)
+	{
+		foreach ($posts as $key => $post) {
+			if ($post->slug == $slug && $key == $postKey)
+				return $post;
+		}
+		return false;
+	}
+
+	public function savePosts($posts)
+	{
+		//$arrayPosts = array();
+		//foreach ($posts as $key => $post)
+		//	$post
+		file_put_contents(__DIR__.$this->baseDir.'files/blog/posts.flg', json_encode($posts));
 	}
 
 }

@@ -1,5 +1,7 @@
 <div class="">
-	<h1>Add a blog post</h1>
+	<h1>
+		Add a blog post
+	</h1>
 	<form action="<?=URL::to('admin/post')?>" method="post" enctype="multipart/form-data">
 		<div class="">
 			<label>Title</label>
@@ -18,7 +20,9 @@
 </div>
 
 <div>
-	<h1>Blog Settings</h1>
+	<h1>
+		Blog Settings
+	</h1>
 	<div>
 		<form>
 			<div class="">
@@ -36,4 +40,19 @@
 			<button>Submit</button>
 		</form>
 	</div>
+</div>
+
+<div>
+	<h1>
+		Edit Posts
+	</h1>
+	<ul>
+		<?php foreach ($posts as $key => $post): ?>
+		<li>
+			<a href="<?php echo URL::to('post').'/'.$post->slug?>"> <?php echo $post->title?></a>
+			- <a href="<?php echo URL::to('admin/posts/edit').'/'.$post->slug.'/'.$key?>">Edit</a>
+			- <a href="<?php echo URL::to('admin/posts/delete').'/'.$post->slug.'/'.$key?>">Delete</a>
+		</li>
+		<?php endforeach;?>
+	</ul>
 </div>
