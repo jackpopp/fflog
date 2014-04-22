@@ -62,12 +62,7 @@ class AdminController extends BaseController
 		$slug = $this->makeSlug($posts, Input::get('title'));
 
 		// upload file if one is found
-		$image = null;
-		if (Input::hasFile('image'))
-		{
-		    Input::file('image')->move(__DIR__.$this->baseDir.'public/uploads', "{$slug}.".Input::file('image')->getClientOriginalExtension());
-		    $image = Input::file('image')->getRealPath().'/'.$slug.'.'.Input::file('image')->getClientOriginalExtension();
-		}
+		$image = $this->uploadImage($slug);
 
 		// need to auto generate slug
 		$newPost = array(
@@ -97,12 +92,31 @@ class AdminController extends BaseController
 	public function editPost($slug, $key)
 	{
 		$post = $this->fetchSinglePost($slug, $key, $this->fetchAllPosts());
+		$this->layout->content = View::make('admin.edit_post', array('post' => $post, 'key' => $key));
 	}
 
 	public function updatePost($slug, $key)
 	{
 		$posts = $this->fetchAllPosts();
-		$this->fetchSinglePost($slug, $key, $posts);
+		$post = $this->fetchSinglePost($slug, $key, $posts);
+
+		// update the posts title and content
+		$post->title = Input::get('title');
+		$post->content = Input::get('content');
+
+		// if image isnt null then update the image
+		$image = $this->uploadImage($slug);
+		if ($image != null)
+			$post->image = $image;
+
+		//update the post at this point
+		$posts[$key] = $post;
+
+		//save the post and redirect to the dashboard
+		$this->savePosts($posts);
+
+		return Redirect::to('admin');
+
 	}
 
 	public function deletePost($slug, $key)
@@ -184,6 +198,18 @@ class AdminController extends BaseController
 		//foreach ($posts as $key => $post)
 		//	$post
 		file_put_contents(__DIR__.$this->baseDir.'files/blog/posts.flg', json_encode($posts));
+	}
+
+	public function uploadImage($slug)
+	{
+		$image = null;
+		if (Input::hasFile('image'))
+		{
+		    Input::file('image')->move(__DIR__.$this->baseDir.'public/uploads', "{$slug}.".Input::file('image')->getClientOriginalExtension());
+		    $image = Input::file('image')->getRealPath().'/'.$slug.'.'.Input::file('image')->getClientOriginalExtension();
+		}
+
+		return $image;
 	}
 
 }
