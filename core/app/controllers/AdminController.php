@@ -126,11 +126,14 @@ class AdminController extends BaseController
 		// check if slug already exsists, if it does append a number to it
 		$duplicateValue = 0;
 
-		foreach ($posts as $key => $post) {
-			if ($post->slug == $slug)
-				$duplicateValue++;
+		if (count($posts) > 0)
+		{
+			foreach ($posts as $key => $post) {
+				if ($post->slug == $slug)
+					$duplicateValue++;
+			}
 		}
-
+		
 		if ($duplicateValue > 0)
 			$slug = $slug.'-'.$duplicateValue;
 
