@@ -6,10 +6,6 @@
 			<input type="text" placeholder="Title" name="title">
 		</div>
 		<div class="">
-			<label>Slug</label>
-			<input type="text" placeholder="Slug" name="slug">
-		</div>
-		<div class="">
 			<label>Image</label>
 			<input type="file" name="image">
 		</div>

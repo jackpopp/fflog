@@ -14,7 +14,10 @@ class AdminController extends BaseController
 
 	public function login()
 	{
-		$this->layout->content = View::make('admin.login');
+		if (! Session::get('isLoggedIn') )
+			return $this->layout->content = View::make('admin.login');
+
+		return Redirect::to('admin');
 	}
 
 	public function startAdminSession()
@@ -46,7 +49,7 @@ class AdminController extends BaseController
 		$newPost = array(
 			array(
 				'title'     => Input::get('title'),
-				'slug'      => Input::get('slug'),
+				'slug'      => $this->makeSlug($posts, Input::get('title')),
 				'timestamp' => $date->getTimestamp(),
 				"user"      => 0,
 				"image"     => "upload path",
@@ -86,6 +89,32 @@ class AdminController extends BaseController
 		if ( file_exists($name))
 			return json_decode(file_get_contents($name));
 		return false;
+	}
+
+	/**
+	* Creates a slug based on the page title and makes sure it doesnt clash with current slugs
+	*
+	* @return String
+	*/
+
+	public function makeSlug($posts, $title)
+	{
+		// todo remove any disallowed chars
+		$slug = strtolower($title);
+		$slug = str_replace(' ', '-', $slug);
+
+		// check if slug already exsists, if it does append a number to it
+		$duplicateValue = 0;
+
+		foreach ($posts as $key => $post) {
+			if ($post->slug == $slug)
+				$duplicateValue++;
+		}
+
+		if ($duplicateValue > 0)
+			$slug = $slug.'-'.$duplicateValue;
+
+		return $slug;
 	}
 
 }
