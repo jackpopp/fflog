@@ -95,3 +95,9 @@ Route::filter('installCheck', function()
     if ( ! file_exists(__DIR__.'/../../files/site_settings.flg'))
 	    return Redirect::to('installer');
 });
+
+
+Route::filter('adminAuth', function(){
+	if ( ! Session::get('isLoggedIn'))
+		return Redirect::to('admin/login');
+});
