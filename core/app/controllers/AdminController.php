@@ -9,7 +9,12 @@ class AdminController extends BaseController
 
 	public function dashboard()
 	{
-		$this->layout->content = View::make('admin.dashboard');
+		$data = array(
+			'themesFolder' => array_diff(scandir(__DIR__.$this->baseDir.'themes'), array('.', '..')),
+			'siteSettings' => json_decode(file_get_contents(__DIR__.$this->baseDir.'files/site_settings.flg'))
+		);
+
+		$this->layout->content = View::make('admin.dashboard', $data);
 	}
 
 	public function login()
