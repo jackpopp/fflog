@@ -2,7 +2,7 @@
 	<h1>
 		Add a blog post
 	</h1>
-	<form action="<?=URL::to('admin/post')?>" method="post" enctype="multipart/form-data">
+	<form action="{{ URL::to('admin/post') }}" method="post" enctype="multipart/form-data">
 		<div class="">
 			<label>Title</label>
 			<input type="text" placeholder="Title" name="title">
@@ -24,10 +24,10 @@
 		Blog Settings
 	</h1>
 	<div>
-		<form>
+		<form action="{{ URL::to('admin/site-settings') }}" method="post">
 			<div class="">
 				<label>Blog name</label>
-				<input type="text" value="<?php echo $siteSettings->blog_name?>">
+				<input type="text" name="blog_name" value="<?php echo $siteSettings->blog_name?>">
 			</div>
 			<div class="">
 				<label>Theme</label>

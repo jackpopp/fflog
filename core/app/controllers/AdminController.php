@@ -194,9 +194,6 @@ class AdminController extends BaseController
 
 	public function savePosts($posts)
 	{
-		//$arrayPosts = array();
-		//foreach ($posts as $key => $post)
-		//	$post
 		file_put_contents(__DIR__.$this->baseDir.'files/blog/posts.flg', json_encode($posts));
 	}
 
@@ -210,6 +207,26 @@ class AdminController extends BaseController
 		}
 
 		return $image;
+	}
+
+	public function updateSiteSettings()
+	{
+		$settings = $this->fetchSiteSettings();
+		$settings->blog_name = Input::get('blog_name');
+		$settings->theme = Input::get('theme');
+		$this->writeSettings($settings);
+
+		return Redirect::to('admin');
+	}
+
+	public function fetchSiteSettings()
+	{
+		return json_decode(file_get_contents(__DIR__.$this->baseDir.'/files/site_settings.flg'));
+	}
+
+	public function writeSettings($settings)
+	{
+		file_put_contents(__DIR__.$this->baseDir.'/files/site_settings.flg', json_encode($settings));
 	}
 
 }
