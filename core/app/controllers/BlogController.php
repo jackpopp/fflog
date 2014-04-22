@@ -11,7 +11,7 @@ class BlogController extends BaseController
 
 	public function __construct()
 	{
-		$this->beforeFilter('@resolveTheme', array('only' => array('index', 'single')));
+		$this->beforeFilter('@resolveTheme', array('only' => array('index', 'singlePost')));
 	}
 
 	public function setTheme($theme)
@@ -60,12 +60,16 @@ class BlogController extends BaseController
 	
 	public function index()
 	{
-		$this->fetchPosts();
+		$this->setPosts($this->fetchPosts());
+		$posts = $this->getPosts();
+		require __DIR__.$this->baseDir.'themes/'.$this->getTheme().'/index.php';
 	}
 
-	public function singlePost($id)
+	public function singlePost($slug)
 	{
-
+		$this->setPost($this->fetchPost($slug, $this->fetchPosts()));
+		$post = $this->getPost();
+		require __DIR__.$this->baseDir.'themes/'.$this->getTheme().'/post.php';
 	}
 
 	/**
@@ -100,23 +104,18 @@ class BlogController extends BaseController
 		$posts = $this->getDecodedFile(__DIR__.$this->baseDir.'files/blog/posts.flg');
 
 		if (count($posts) == 0)
-		{
-			$this->setPosts(array());
-		}
+			return array();
 		else
-		{
-			$this->setPosts($posts);
-		}
-
-		// require correct view here and pass it out variables
-		$posts = $this->getPosts();
-		require __DIR__.$this->baseDir.'themes/'.$this->getTheme().'/index.php';
-
+			return $posts;
 	}
 
-	public function fetchPost($id)
+	public function fetchPost($slug, $posts)
 	{
-
+		foreach ($posts as $key => $post) {
+			if ($post->slug == $slug)
+				return $post;
+		}
+		return false;
 	}
 
 }

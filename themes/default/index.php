@@ -10,7 +10,7 @@
 		<?php echo substr($post->content, 0, 50);?>...
 	</div>
 
-	<a href="posts/<? echo $post->slug;?>">Read More</a> <br>
+	<a href="post/<? echo $post->slug;?>">Read More</a> <br>
 
 <?php endforeach; ?>
 
