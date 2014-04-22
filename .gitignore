@@ -3,3 +3,4 @@ themes/*
 files/*
 !files/blog/.gitkeep
 todo.md
+public/uploads/*

@@ -52,14 +52,25 @@ class AdminController extends BaseController
 
 		$date = new DateTime();
 
+		// make out slug
+		$slug = $this->makeSlug($posts, Input::get('title'));
+
+		// upload file if one is found
+		$image = null;
+		if (Input::hasFile('image'))
+		{
+		    Input::file('image')->move(__DIR__.$this->baseDir.'public/uploads', "{$slug}.".Input::file('image')->getClientOriginalExtension());
+		    $image = Input::file('image')->getRealPath().'/'.$slug.'.'.Input::file('image')->getClientOriginalExtension();
+		}
+
 		// need to auto generate slug
 		$newPost = array(
 			array(
 				'title'     => Input::get('title'),
-				'slug'      => $this->makeSlug($posts, Input::get('title')),
+				'slug'      => $slug,
 				'timestamp' => $date->getTimestamp(),
 				"user"      => 0,
-				"image"     => "upload path",
+				"image"     => $image,
 				"content"   => Input::get('content')
 			)
 		);

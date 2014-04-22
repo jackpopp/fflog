@@ -3,7 +3,7 @@
 class InstallController extends BaseController 
 {
 	protected $layout = 'master';
-	private $baseDir = "/../../../files/";
+	private $baseDir = "/../../../";
 
 	/**
 	* Renders the installer view
@@ -24,7 +24,8 @@ class InstallController extends BaseController
 
 	public function writeSettings()
 	{
-		file_put_contents(__DIR__.$this->baseDir.'site_settings.flg', $this->makeSettingsFile(Input::all()));
+		$this->generateFolders();
+		file_put_contents(__DIR__.$this->baseDir.'files/site_settings.flg', $this->makeSettingsFile(Input::all()));
 		return Redirect::to('/');
 	}
 
@@ -43,5 +44,26 @@ class InstallController extends BaseController
 			'theme'     => 'default'
 		);
 		return json_encode($settings);
+	}
+
+	/**
+	* Checks for specific folders and if not found generates them
+	*
+	* @return void
+	*/
+
+	private function generateFolders()
+	{
+		//files
+		if ( ! file_exists(__DIR__.$this->baseDir.'files'))
+			mkdir(__DIR__.$this->baseDir.'files');
+
+		//blog
+		if ( ! file_exists(__DIR__.$this->baseDir.'files/blog'))
+			mkdir(__DIR__.$this->baseDir.'files/blog');
+
+		//public/uploads
+		if ( ! file_exists(__DIR__.$this->baseDir.'public/uploads'))
+			mkdir(__DIR__.$this->baseDir.'public/uploads');
 	}
 }

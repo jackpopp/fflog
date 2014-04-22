@@ -1,6 +1,6 @@
 <div class="">
 	<h1>Add a blog post</h1>
-	<form action="<?=URL::to('admin/post')?>" method="post">
+	<form action="<?=URL::to('admin/post')?>" method="post" enctype="multipart/form-data">
 		<div class="">
 			<label>Title</label>
 			<input type="text" placeholder="Title" name="title">
