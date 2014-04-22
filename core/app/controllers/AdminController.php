@@ -20,6 +20,13 @@ class AdminController extends BaseController
 		return Redirect::to('admin');
 	}
 
+	public function logout()
+	{
+		Session::put('isLoggedIn', false);
+		Session::put('user', null);
+		return Redirect::to('admin');
+	}
+
 	public function startAdminSession()
 	{
 		$username = Input::get('username');
@@ -65,7 +72,7 @@ class AdminController extends BaseController
 		//write posts to file
 		file_put_contents(__DIR__.$this->baseDir.'files/blog/posts.flg', json_encode($mergedPosts));
 
-		Session::put('successMessage', 'Blog post added.');
+		Session::flash('successMessage', 'Blog post added.');
 
 		return Redirect::to(URL::to('admin'));
 	}

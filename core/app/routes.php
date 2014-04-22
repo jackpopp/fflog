@@ -21,6 +21,7 @@ Route::group(array('before' => 'installCheck'), function()
 
 	Route::get('admin/login', 'AdminController@login');
 	Route::post('admin/login', 'AdminController@startAdminSession');
+	Route::get('admin/logout', 'AdminController@logout');
 
 	// auth group checks
 

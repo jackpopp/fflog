@@ -10,4 +10,8 @@
 	</div>
 @endif
 
+@if (Session::get('isLoggedIn'))
+	<a href="admin/logout">Logout</a>
+@endif
+
 {{ $content }}
