@@ -11,6 +11,8 @@
 |
 */
 
+
+// need to add installer check to see if we have already installed and redirect to admin
 Route::get('installer', 'InstallController@installer');
 Route::post('installer/setup', 'InstallController@writeSettings');
 

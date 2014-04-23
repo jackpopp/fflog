@@ -1,57 +1,60 @@
-<div class="row">
-	<h1>
-		Add a blog post
-	</h1>
-	<form action="{{ URL::to('admin/post') }}" method="post" enctype="multipart/form-data">
-		<div class="">
-			<label>Title</label>
-			<input type="text" placeholder="Title" name="title">
-		</div>
-		<div class="">
-			<label>Image</label>
-			<input type="file" name="image">
-		</div>
-		<div class="">
-			<label>Content</label>
-			<textarea name="content"></textarea>
-		</div>
-		<button class="btn tiny">Submit</button>
-	</form>
-</div>
-
-<div class="row">
-	<h1>
-		Edit Blog Settings
-	</h1>
-	<div>
-		<form action="{{ URL::to('admin/site-settings') }}" method="post">
+<div class="row input-form js-new-post ">
+	<div class="large-12 columns">
+		<h1>
+			New Post
+		</h1>
+		<form action="{{ URL::to('admin/post') }}" method="post" enctype="multipart/form-data">
 			<div class="">
-				<label>Blog name</label>
-				<input type="text" name="blog_name" value="<?php echo $siteSettings->blog_name?>">
+				<input class="js-focus-input" type="text" placeholder="Enter Title" name="title" autocomplete="off">
+			</div>
+			<div class="input-file">
+				<label>Add Image</label> <input type="file" name="image">
 			</div>
 			<div class="">
-				<label>Theme</label>
-				<select name="theme">
-					<?foreach ($themesFolder as $key => $theme):?>
-						<option value="<?php echo $theme?>" <?php echo (($siteSettings->theme == $theme) ? 'selected' : '')?>><?php echo $theme; ?></option>
-					<?endforeach;?>
-				</select>
+				<textarea name="content" placeholder="Enter Content"></textarea>
 			</div>
-			<button class="btn tiny">Submit</button>
+			<button>Add</button>
 		</form>
 	</div>
 </div>
 
-<div class="row">
-	<h1>
-		Edit Posts
-	</h1>
+<div class="row input-form js-blog-settings blog-settings">
+	<div class="large-12 columns">
+		<h1>
+			Blog Settings
+		</h1>
+		<div>
+			<form action="{{ URL::to('admin/site-settings') }}" method="post">
+				<div class="">
+					<label>Blog name</label>
+					<input class="js-blog-name" type="text" name="blog_name" value="<?php echo $siteSettings->blog_name?>">
+				</div>
+				<div class="">
+					<label>Theme</label>
+					<select name="theme">
+						<?foreach ($themesFolder as $key => $theme):?>
+							<option value="<?php echo $theme?>" <?php echo (($siteSettings->theme == $theme) ? 'selected' : '')?>><?php echo $theme; ?></option>
+						<?endforeach;?>
+					</select>
+				</div>
+				<button>Save</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="row input-form js-edit-posts edit-posts">
+	<div class="large-12 columns">
+		<h1>
+			Edit Posts
+		</h1>
+	</div>
 	<ul>
 		<?php foreach ($posts as $key => $post): ?>
 		<li>
-			<a href="<?php echo URL::to('post').'/'.$post->slug?>"> <?php echo $post->title?></a>
-			- <a href="<?php echo URL::to('admin/posts/edit').'/'.$post->slug.'/'.$key?>">Edit</a>
-			- <a href="<?php echo URL::to('admin/posts/delete').'/'.$post->slug.'/'.$key?>">Delete</a>
+			<a class="large-6 columns" href="<?php echo URL::to('post').'/'.$post->slug?>"> <?php echo $post->title?></a>
+			<a class="large-2 large-offset-2 columns editable" href="<?php echo URL::to('admin/posts/edit').'/'.$post->slug.'/'.$key?>">Edit</a>
+			<a class="large-2 columns editable" href="<?php echo URL::to('admin/posts/delete').'/'.$post->slug.'/'.$key?>">Delete</a>
 		</li>
 		<?php endforeach;?>
 	</ul>

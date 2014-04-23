@@ -10,7 +10,7 @@ class AdminController extends BaseController
 	public function dashboard()
 	{
 		$data = array(
-			'themesFolder' => array_diff(scandir(__DIR__.$this->baseDir.'themes'), array('.', '..')),
+			'themesFolder' => array_diff(scandir(__DIR__.$this->baseDir.'themes'), array('.', '..', '.DS_Store')),
 			'siteSettings' => json_decode(file_get_contents(__DIR__.$this->baseDir.'files/site_settings.flg')),
 			'posts' => $this->fetchAllPosts()
 		);
@@ -92,6 +92,7 @@ class AdminController extends BaseController
 	public function editPost($slug, $key)
 	{
 		$post = $this->fetchSinglePost($slug, $key, $this->fetchAllPosts());
+		Session::flash('editMode', true);
 		$this->layout->content = View::make('admin.edit_post', array('post' => $post, 'key' => $key));
 	}
 
