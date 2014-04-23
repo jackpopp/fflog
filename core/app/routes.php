@@ -24,6 +24,13 @@ Route::group(array('before' => 'installCheck'), function()
 	Route::post('admin/login', 'AdminController@startAdminSession');
 	Route::get('admin/logout', 'AdminController@logout');
 
+	// match asset paths
+	// credit Eelke van den Bos @ http://stackoverflow.com/a/15586240/1797053
+	Route::get('theme/assets/{path}', function($path){
+		$fflog = new Fflog();
+		return $fflog->resolveAssetPath($path);
+	})->where('path', '([A-z\d-\/_.]+)?');
+
 	// auth group checks
 
 	Route::group(array('before' => 'adminAuth'), function(){

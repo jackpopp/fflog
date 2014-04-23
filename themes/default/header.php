@@ -1,3 +1,5 @@
-header
+<?php $fflog->css('main.css');?>
 
-<?php $fflog->asset();?>
+<header>
+	header
+</header>
