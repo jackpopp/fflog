@@ -3,6 +3,7 @@
 class Fflog {
 
 	private $baseDir = "/../../../";
+	protected $mimeTypes = array('js'  => 'text/javascript','css' => 'text/css');
 
 	/**
 	* Returns an asset path that the router can use to resolve an asset from our theme
@@ -65,17 +66,26 @@ class Fflog {
 
 	public function resolveAssetPath($path)
 	{
+		$fullPath = __DIR__.$this->baseDir.'themes/'.$this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->theme.'/assets/'.$path;
 		// find what theme is set
 		// look in assets for the file
 		// full path to look in would be along the flines of themes/default/assets/$path
-		if (file_exists(__DIR__.$this->baseDir.'themes/'.$this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->theme.'/assets/'.$path))
+		if (file_exists($fullPath))
 		{
-			echo file_get_contents(__DIR__.$this->baseDir.'themes/'.$this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->theme.'/assets/'.$path);
+			$this->setMimeType($path);
+			echo file_get_contents($fullPath);
 			return;
 		}
 
 		http_response_code(404);
 		echo 'File not found';
+	}
+
+	public function setMimeType($path)
+	{
+		$type = last(explode('.', $path));
+		if (array_key_exists($type, $this->mimeTypes))
+			header("Content-type: ".$this->mimeTypes[$type]."");
 	}
 
 	/**
