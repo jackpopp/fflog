@@ -8,10 +8,12 @@ class BlogController extends BaseController
 	private $posts = array();
 	private $totalPosts = 0;
 	private $post = null;
+	protected $fflog;
 
-	public function __construct()
+	public function __construct(Fflog $fflog)
 	{
 		$this->beforeFilter('@resolveTheme', array('only' => array('index', 'singlePost')));
+		$this->fflog = $fflog;
 	}
 
 	public function setTheme($theme)
@@ -62,6 +64,7 @@ class BlogController extends BaseController
 	{
 		$this->setPosts($this->fetchPosts());
 		$posts = $this->getPosts();
+		$fflog = $this->fflog;
 		require __DIR__.$this->baseDir.'themes/'.$this->getTheme().'/index.php';
 	}
 
@@ -69,6 +72,7 @@ class BlogController extends BaseController
 	{
 		$this->setPost($this->fetchPost($slug, $this->fetchPosts()));
 		$post = $this->getPost();
+		$fflog = $this->fflog;
 		require __DIR__.$this->baseDir.'themes/'.$this->getTheme().'/post.php';
 	}
 
