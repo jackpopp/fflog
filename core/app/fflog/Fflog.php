@@ -4,24 +4,55 @@ class Fflog {
 
 	private $baseDir = "/../../../";
 
-	public function asset()
+	/**
+	* Returns an asset path that the router can use to resolve an asset from our theme
+	*
+	* @param string
+	* @return void
+	*/
+
+	public function assetPath($filename)
 	{
-		echo "asset";
+		echo URL::to('/theme/assets/'.$filename);
 	}
+
+	/**
+	* Returns a stylesheet tag with the asset path that the router can use to resolve the correct asset
+	*
+	* @param string
+	* @return void
+	*/
 
 	public function css($filename)
 	{
-		echo '<link rel="stylesheet" type="text/css" href="http://fflog.dev/theme/assets/css/'.$filename.'">';
+		$url = URL::to('/theme/assets/css/'.$filename);
+		echo '<link rel="stylesheet" type="text/css" href="'.$url.'">';
 	}
 
-	public function javascript()
+	/**
+	* Returns a javascript tag with the asset path that the router can use to resolve the correct asset
+	*
+	* @param string
+	* @return void
+	*/
+
+	public function js($filename)
 	{
-		echo "javascript";
+		$url = URL::to('/theme/assets/js/'.$filename);
+		echo '<script src="'.$url.'"></script>';
 	}
 
-	public function image()
+	/**
+	* Returns a img tag with the asset path that the router can use to resolve the correct asset
+	*
+	* @param string
+	* @return void
+	*/
+
+	public function img($filename)
 	{
-		echo "image";
+		$url = URL::to('/theme/assets/img/'.$filename);
+		echo '<img src="'.$url.'">';
 	}
 
 	/**
@@ -29,7 +60,7 @@ class Fflog {
 	* Opens the found file and echos it's contents, if no file found throws exception.
 	*
 	* @param string
-	* @return mixed
+	* @return void
 	*/
 
 	public function resolveAssetPath($path)
@@ -37,7 +68,14 @@ class Fflog {
 		// find what theme is set
 		// look in assets for the file
 		// full path to look in would be along the flines of themes/default/assets/$path
-		echo file_get_contents(__DIR__.$this->baseDir.'themes/'.$this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->theme.'/assets/'.$path);
+		if (file_exists(__DIR__.$this->baseDir.'themes/'.$this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->theme.'/assets/'.$path))
+		{
+			echo file_get_contents(__DIR__.$this->baseDir.'themes/'.$this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->theme.'/assets/'.$path);
+			return;
+		}
+
+		http_response_code(404);
+		echo 'File not found';
 	}
 
 	/**
