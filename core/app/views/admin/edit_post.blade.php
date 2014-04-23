@@ -20,6 +20,6 @@
 			<label>Content</label>
 			<textarea name="content">{{$post->content}}</textarea>
 		</div>
-		<button>Submit</button>
+		<button class="btn tiny">Submit</button>
 	</form>
 </div>

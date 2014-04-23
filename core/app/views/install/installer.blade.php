@@ -1,5 +1,6 @@
-<div class="">
+<div class="row">
 	<h1>Welcome to Flogg</h1>
+	<h3>Lets set you up</h3>
 	<form action="<?=URL::to('installer/setup')?>" method="post">
 		<div class="">
 			<label>Blog Name</label>
@@ -21,6 +22,6 @@
 			<label>Password</label>
 			<input type="password" placeholder="Password" name="password">
 		</div>
-		<button>Submit</button>
+		<button class="btn tiny">Submit</button>
 	</form>
 </div>

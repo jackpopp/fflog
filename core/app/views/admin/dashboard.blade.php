@@ -15,7 +15,7 @@
 			<label>Content</label>
 			<textarea name="content"></textarea>
 		</div>
-		<button>Submit</button>
+		<button class="btn tiny">Submit</button>
 	</form>
 </div>
 
@@ -37,7 +37,7 @@
 					<?endforeach;?>
 				</select>
 			</div>
-			<button>Submit</button>
+			<button class="btn tiny">Submit</button>
 		</form>
 	</div>
 </div>
