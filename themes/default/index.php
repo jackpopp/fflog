@@ -2,21 +2,25 @@
 
 <?php foreach($posts as $post): ?>
 
-	<h1>
-		<?php echo $post->title;?>
-	</h1>
+	<div class="row">
 
-	<?php if ($post->image): ?>
+		<h1>
+			<?php echo $post->title;?>
+		</h1>
+
+		<?php if ($post->image): ?>
+			<div>
+				<img src="<?php echo URL::to('uploads') ?><?php echo $post->image ?>" style="width:300px; height: 300px;margin: 10px 0; border:1px solid black;">
+			</div>
+		<?php endif; ?>
+
 		<div>
-			<img src="<?php echo URL::to('uploads') ?><?php echo $post->image ?>" style="width:300px; height: 300px;margin: 10px 0; border:1px solid black;">
+			<?php echo substr($post->content, 0, 50);?>...
 		</div>
-	<?php endif; ?>
 
-	<div>
-		<?php echo substr($post->content, 0, 50);?>...
+		<a href="post/<? echo $post->slug;?>">Read More</a> <br>
+
 	</div>
-
-	<a href="post/<? echo $post->slug;?>">Read More</a> <br>
 
 <?php endforeach; ?>
 
