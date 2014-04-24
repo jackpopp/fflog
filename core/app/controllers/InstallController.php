@@ -13,6 +13,10 @@ class InstallController extends BaseController
 
 	public function installer()
 	{
+		// check if there is a site settings folder and if there is return redirect to admin to log in
+
+		// flush any session data, if they are reinstaling and were logged in at the time
+		Session::flush();
 		$this->layout->content = View::make('install.installer');
 	}
 
@@ -24,9 +28,15 @@ class InstallController extends BaseController
 
 	public function writeSettings()
 	{
+		// generate folders if they dont exists
 		$this->generateFolders();
+		// write the settings to file
 		file_put_contents(__DIR__.$this->baseDir.'files/site_settings.flg', $this->makeSettingsFile(Input::all()));
-		return Redirect::to('/');
+		// log the user in, key will always be 0 at this point as we've just written a single user
+		Session::put('user', 0);
+		Session::put('isLoggedIn', true);
+		// redirect to the admin panel
+		return Redirect::to('/admin');
 	}
 
 	private function makeSettingsFile($input)

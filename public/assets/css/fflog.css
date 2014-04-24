@@ -1,6 +1,12 @@
+@font-face {
+  font-family: "Merriweather";
+  font-style: normal;
+  font-weight: 300;
+  src: local("Merriweather Light"), local("Merriweather-Light"), url(../fonts/ZvcMqxEwPfh2qDWBPxn6nmB7wJ9CoPCp9n30ZBThZ1I.woff) format("woff"); }
+
 body {
   opacity: 1;
-  transition: opacity 1s ease-in;
+  transition: opacity 0.4s ease-in;
   font-family: "Merriweather", "serif"; }
   body.invisible {
     opacity: 0;
@@ -93,7 +99,7 @@ button {
   font-weight: 300;
   font-family: "Merriweather", "serif";
   background-color: #b1b1b1; }
-  button:hover {
+  button:hover, button:focus {
     background-color: #8b8b8b; }
 
 ::-webkit-input-placeholder {
@@ -130,6 +136,16 @@ ul li {
       margin-right: 20px; }
   .main-nav .name h1 a {
     padding: 0; }
+
+.message {
+  font-size: 20px;
+  margin-bottom: -20px; }
+
+.message-success {
+  color: #27ae60; }
+
+.message-error {
+  color: #e74c3c; }
 
 .input-form {
   margin: 50px auto 0px auto; }

@@ -3,14 +3,14 @@
 <head>
 	
 	<title>Fflog</title>
-	<link href='http://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'>
+	<!--<link href='http://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'> -->
 	<link rel="stylesheet" type="text/css" href="{{URL::to('assets/css/normalize.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{URL::to('assets/css/foundation.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{URL::to('assets/css/fflog.css')}}">
 
 </head>
 
-<body>
+<body class="invisible">
 
 	<header>
 		<nav class="main-nav">
@@ -18,15 +18,15 @@
 				<div class="large-12 columns">
 					<ul class="left show-for-small">
 						<li>
-							<a href="{{ URL::to('')}}">Fflog</a>
+							<a href="{{ URL::to('admin')}}">Fflog</a>
 						</li>
 					</ul>
 
 					<ul class="left hide-for-small">
 						<li>
-							<a href="{{ URL::to('')}}">Fflog</a>
+							<a href="{{ URL::to('admin')}}">Fflog</a>
 						</li>
-						@if ( Session::get('isLoggedIn') && ( ! Session::get('editMode')) )
+						@if ( Session::get('isLoggedIn') && ( isset($onDashboard)) )
 						<li>
 							<a class="js-show-section js-new-post-a active" href="#">New Post</a>
 						</li>
@@ -52,14 +52,18 @@
 	</header>
 
 	@if (Session::get('errorMessage'))
-		<div>
-			{{ Session::get('errorMessage')}}
+		<div class="row">
+			<div class="large-12 columns message message-error">
+				{{ Session::get('errorMessage')}}
+			</div>
 		</div>
 	@endif
 
 	@if (Session::get('successMessage'))
-		<div>
-			{{ Session::get('successMessage')}}
+		<div class="row">
+			<div class="large-12 columns message message-success">
+				{{ Session::get('successMessage')}}
+			</div>
 		</div>
 	@endif
 

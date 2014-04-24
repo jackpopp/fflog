@@ -10,7 +10,7 @@
     if (target.hasClass('js-new-post-a')) {
       $('.js-blog-settings').fadeOut(400, function() {
         return $('.js-edit-posts').fadeOut(400, function() {
-          return $('.js-new-post').fadeIn(400, $('.js-focus-input').focus());
+          return $('.js-new-post').fadeIn();
         });
       });
     }
@@ -24,21 +24,28 @@
     if (target.hasClass('js-edit-posts-a')) {
       $('.js-new-post').fadeOut(400, function() {
         return $('.js-blog-settings').fadeOut(400, function() {
-          return $('.js-edit-posts').fadeIn(400, function() {
-            return $('.js-blog-name').focus();
-          });
+          return $('.js-edit-posts').fadeIn();
         });
       });
     }
   };
 
   $(function() {
-    $('body').addClass('invisible');
+    var initVal;
+
     setTimeout(function() {
       return $('body').removeClass('invisible');
     }, 50);
+    setTimeout(function() {
+      return $('.message').fadeOut(500, function() {
+        return $('.message').remove();
+      });
+    }, 5000);
     $('textarea').css('overflow', 'hidden').autosize();
     $('.js-focus-input').focus();
+    initVal = $('.js-focus-input').val();
+    $('.js-focus-input').val('');
+    $('.js-focus-input').val(initVal);
     return $('.js-show-section').click(function(e) {
       showSection($(e.target));
       e.preventDefault();

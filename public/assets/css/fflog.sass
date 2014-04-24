@@ -1,9 +1,25 @@
 $placeholderColor: #222
+$typeColor: #222
 $labelColor: #222
+$buttonBackground: #B1B1B1
+$mainNavBackground: #222
+$mainNavLinkColor: #FFF
+
+$placeholderColorAlt: #A2A2A2
+$typeColorAlt: #A2A2A2
+$labelColorAlt: #222
+$mainNavBackgroundAlt: #4fc3f7
+$mainNavLinkColorALt: #FFF
+
+@font-face
+	font-family: 'Merriweather'
+	font-style: normal
+	font-weight: 300
+	src: local('Merriweather Light'), local('Merriweather-Light'), url(../fonts/ZvcMqxEwPfh2qDWBPxn6nmB7wJ9CoPCp9n30ZBThZ1I.woff) format('woff')
 
 body
 	opacity: 1
-	transition: opacity 1s ease-in
+	transition: opacity 0.4s ease-in
 	font-family: 'Merriweather', 'serif'
 	&.invisible
 		opacity: 0
@@ -85,9 +101,9 @@ button
 	border-radius: 4px
 	font-weight: 300
 	font-family: 'Merriweather', 'serif'
-	background-color: #B1B1B1
-	&:hover
-		background-color: darken(#B1B1B1, 15%)
+	background-color: $buttonBackground
+	&:hover, &:focus
+		background-color: darken($buttonBackground, 15%)
 
 ::-webkit-input-placeholder 
 	color: $placeholderColor
@@ -108,15 +124,15 @@ ul
 
 .main-nav
 	height: 90px
-	background: #222
+	background: $mainNavBackground
 	a
 		line-height: 90px
-		color: white
+		color: $mainNavLinkColor
 		transition: all 0.5s
 		&.active
-			color: darken(white, 40%)
+			color: darken($mainNavLinkColor, 40%)
 		&:hover
-			color: darken(white, 25%)
+			color: darken($mainNavLinkColor, 25%)
 			transition: all 0.5s
 	ul
 		margin-left: 0
@@ -127,6 +143,16 @@ ul
 		h1
 			a
 				padding: 0
+
+.message
+	font-size: 20px
+	margin-bottom: -20px
+
+.message-success
+	color: #27ae60
+
+.message-error
+	color: #e74c3c
 
 .input-form
 	margin: 50px auto 0px auto
@@ -164,3 +190,5 @@ ul
 
 .hidden, .blog-settings, .edit-posts
 	display: none
+
+.alt-style
