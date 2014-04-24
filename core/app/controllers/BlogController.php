@@ -64,6 +64,7 @@ class BlogController extends BaseController
 	{
 		$this->setPosts($this->fetchPosts());
 		$posts = $this->getPosts();
+		$blogName = $this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->blog_name;
 		$fflog = $this->fflog;
 		require __DIR__.$this->baseDir.'themes/'.$this->getTheme().'/index.php';
 	}
@@ -72,6 +73,7 @@ class BlogController extends BaseController
 	{
 		$this->setPost($this->fetchPost($slug, $this->fetchPosts()));
 		$post = $this->getPost();
+		$blogName = $this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->blog_name;
 		$fflog = $this->fflog;
 		require __DIR__.$this->baseDir.'themes/'.$this->getTheme().'/post.php';
 	}

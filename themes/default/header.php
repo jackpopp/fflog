@@ -8,6 +8,8 @@
 	</head>
 	<body>
 
+		<?echo $blogName?>
+
 		<header class="row">
 			header
 		</header>
