@@ -134,6 +134,8 @@ ul li {
     .main-nav ul li {
       display: inline-block;
       margin-right: 20px; }
+      .main-nav ul li:last-child {
+        margin-right: 0; }
   .main-nav .name h1 a {
     padding: 0; }
 

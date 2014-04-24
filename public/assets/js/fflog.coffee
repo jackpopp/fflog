@@ -22,7 +22,7 @@ $ ->
 	
 	setTimeout(
 		-> $('.message').fadeOut(500, -> $('.message').remove())
-		5000
+		4000
 	)
 
 	$('textarea').css('overflow', 'hidden').autosize()

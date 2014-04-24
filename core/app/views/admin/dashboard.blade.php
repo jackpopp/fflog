@@ -50,11 +50,14 @@
 		</h1>
 	</div>
 	<ul>
+		<li class="large-12 columns">
+			Post Count: {{count($posts)}}
+		</li>
 		<?php foreach ($posts as $key => $post): ?>
 		<li>
-			<a class="large-6 columns" href="<?php echo URL::to('post').'/'.$post->slug?>"> <?php echo $post->title?></a>
-			<a class="large-2 large-offset-2 columns editable" href="<?php echo URL::to('admin/posts/edit').'/'.$post->slug.'/'.$key?>">Edit</a>
-			<a class="large-2 columns editable" href="<?php echo URL::to('admin/posts/delete').'/'.$post->slug.'/'.$key?>">Delete</a>
+			<a class="large-6 small-12 columns" href="<?php echo URL::to('post').'/'.$post->slug?>"> <?php echo $post->title?></a>
+			<a class="large-2 large-offset-2 small-6 columns editable" href="<?php echo URL::to('admin/posts/edit').'/'.$post->slug.'/'.$key?>">Edit</a>
+			<a class="large-2 small-6 columns editable" href="<?php echo URL::to('admin/posts/delete').'/'.$post->slug.'/'.$key?>">Delete</a>
 		</li>
 		<?php endforeach;?>
 	</ul>

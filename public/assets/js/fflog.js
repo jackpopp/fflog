@@ -40,7 +40,7 @@
       return $('.message').fadeOut(500, function() {
         return $('.message').remove();
       });
-    }, 5000);
+    }, 4000);
     $('textarea').css('overflow', 'hidden').autosize();
     $('.js-focus-input').focus();
     initVal = $('.js-focus-input').val();
