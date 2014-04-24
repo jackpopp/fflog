@@ -1,7 +1,7 @@
 <div class="row input-form">
 	<div class="large-12 columns">
 		<h1>Lets get you started</h1>
-		<form action="<?=URL::to('installer/setup')?>" method="post">
+		<form class="js-validate-form" action="<?=URL::to('installer/setup')?>" method="post">
 			<div class="">
 				<input class="js-focus-input" type="text" placeholder="Blog Name" name="blog_name" autocomplete="off">
 			</div>

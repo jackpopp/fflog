@@ -3,7 +3,7 @@
 		<h1>
 			Edit Post
 		</h1>
-		<form action="{{ URL::to('admin/posts/edit') }}/{{ $post->slug }}/{{ $key }}" method="post" enctype="multipart/form-data">
+		<form class="js-validate-form" action="{{ URL::to('admin/posts/edit') }}/{{ $post->slug }}/{{ $key }}" method="post" enctype="multipart/form-data">
 			<div class="">
 				<label class="hidden">Title</label>
 				<input class="js-focus-input" type="text" placeholder="Title" name="title" value="{{ $post->title }}" autocomplete="off">

@@ -1,3 +1,5 @@
+# Displays an admin section based on the selected target
+
 showSection = (target) ->
 	$('.js-show-section').each -> $(@).removeClass('active')
 	target.addClass('active')
@@ -11,9 +13,31 @@ showSection = (target) ->
 		$('.js-new-post').fadeOut(400, -> $('.js-blog-settings').fadeOut(400, -> $('.js-edit-posts').fadeIn()))
 	return
 
+# Sets the focus to the class with supplied class
+
+setInputFocus = (targetClass) ->
+	$(targetClass).focus()
+	initVal = $(targetClass).val()
+	$(targetClass).val('')
+	$(targetClass).val(initVal)
+	return
+
+validateInputs = (targetClass) ->
+	invalid = false
+	$(targetClass).find('input[type=text], textarea').each -> if $(this).val() is '' then invalid = true
+
+	if invalid is false
+		targetClass.submit()
+	else
+		$('.js-error-message').html('Please complete all inputs').fadeIn()
+		setTimeout(
+			-> $('.js-error-message').fadeOut(500)
+			4000
+		)
+	return
+
 $ ->
 	
-	#$('body').addClass('invisible')
 	setTimeout(
 		-> $('body').removeClass('invisible')
 		50
@@ -21,17 +45,18 @@ $ ->
 
 	
 	setTimeout(
-		-> $('.message').fadeOut(500, -> $('.message').remove())
+		-> if not $('.message').hasClass('no-remove') then $('.message').fadeOut(500, -> $('.message').remove())
 		4000
 	)
 
 	$('textarea').css('overflow', 'hidden').autosize()
 
-	$('.js-focus-input').focus()
+	setInputFocus('.js-focus-input')
 
-	initVal = $('.js-focus-input').val()
-	$('.js-focus-input').val('')
-	$('.js-focus-input').val(initVal)
+	$('.js-validate-form').submit (e) ->
+		e.preventDefault()
+		validateInputs(e.target)
+		return
 
 	$('.js-show-section').click (e) ->
 		showSection($(e.target))

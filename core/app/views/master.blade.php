@@ -51,21 +51,23 @@
 		</nav>
 	</header>
 
-	@if (Session::get('errorMessage'))
-		<div class="row">
+	<div class="row">
+		<div class="large-12 columns message message-error js-error-message no-remove" style="display:none;">
+			
+		</div>
+
+		@if (Session::get('errorMessage'))
 			<div class="large-12 columns message message-error">
 				{{ Session::get('errorMessage')}}
 			</div>
-		</div>
-	@endif
+		@endif
 
-	@if (Session::get('successMessage'))
-		<div class="row">
+		@if (Session::get('successMessage'))
 			<div class="large-12 columns message message-success">
 				{{ Session::get('successMessage')}}
 			</div>
-		</div>
-	@endif
+		@endif
+	</div>
 
 	{{ $content }}
 
