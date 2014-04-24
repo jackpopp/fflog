@@ -78,7 +78,7 @@ class AdminController extends BaseController
 		);
 
 		// do an array union if post count over 0
-		if (count($posts) > 0)
+		if ( count($posts) > 0 && $posts != null)
 			$mergedPosts = array_merge($newPost, $posts);
 		else
 			$mergedPosts = $newPost;
@@ -104,6 +104,7 @@ class AdminController extends BaseController
 		// update the posts title and content
 		$post->title = Input::get('title');
 		$post->content = Input::get('content');
+		$post->slug = $this->makeSlug($posts, Input::get('title'));
 
 		// if image isnt null then update the image
 		$image = $this->uploadImage($slug);
@@ -164,7 +165,7 @@ class AdminController extends BaseController
 		// check if slug already exsists, if it does append a number to it
 		$duplicateValue = 0;
 
-		if (count($posts) > 0)
+		if ( count($posts) > 0 && $posts != null)
 		{
 			foreach ($posts as $key => $post) {
 				if ($post->slug == $slug)
@@ -182,7 +183,7 @@ class AdminController extends BaseController
 	{
 		$posts = $this->getDecodedFile(__DIR__.$this->baseDir.'files/blog/posts.flg');
 
-		if (count($posts) == 0)
+		if (count($posts) == 0 || $posts == null)
 			return array();
 		else
 			return $posts;

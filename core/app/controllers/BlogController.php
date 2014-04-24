@@ -107,7 +107,7 @@ class BlogController extends BaseController
 	{
 		$posts = $this->getDecodedFile(__DIR__.$this->baseDir.'files/blog/posts.flg');
 
-		if (count($posts) == 0)
+		if (count($posts) == 0 || $posts == null)
 			return array();
 		else
 			return $posts;
