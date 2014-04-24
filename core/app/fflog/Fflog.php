@@ -101,4 +101,30 @@ class Fflog {
 		return false;
 	}
 
+	/**
+	* Look for a theme missing page and show that.
+	* If none is found then we'll just print out a error and set 404 header.
+	*
+	* @return mixed
+	*/
+
+	public function pageMissing()
+	{
+		if (file_exists( __DIR__.$this->baseDir.'themes/'.$this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->theme.'/missing.php'))
+		{
+			ob_start();
+				$fflog = new Self();
+				$blogName = $this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->blog_name;
+				include_once __DIR__.$this->baseDir.'themes/'.$this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->theme.'/missing.php';
+			$html = ob_get_clean();
+
+			return Response::make($html, 404);
+		}
+		else
+		{
+			return Response::make('No page found', 404);
+		}
+		
+	}
+
 }

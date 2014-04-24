@@ -79,3 +79,28 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+
+/*
+|--------------------------------------------------------------------------
+| Handle 404 error
+|--------------------------------------------------------------------------
+|
+| Check if we are in admin, if so we can redirect to dashboard with a 404 error.
+| If we're outside of admin then we use the FFlog class to render a missing
+| page theme template or basic missing page if none in template.
+|
+*/
+
+App::missing(function($exception)
+{
+	if ( (Request::segment(1) == 'admin') && (Session::get('isLoggedIn')) )
+	{
+		return Response::make(View::make('master', array('content' => View::make('admin.missing'))), 404);
+	}
+	else
+	{
+		$fflog = new Fflog();
+		return $fflog->pageMissing();
+	}
+});
