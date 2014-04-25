@@ -63,11 +63,13 @@
       return $('body').removeClass('invisible');
     }, 50);
     setTimeout(function() {
-      if (!$('.message').hasClass('no-remove')) {
-        return $('.message').fadeOut(500, function() {
-          return $('.message').remove();
-        });
-      }
+      $('.message').each(function() {
+        if (!$(this).hasClass('no-remove')) {
+          return $('.message').fadeOut(500, function() {
+            return $('.message').remove();
+          });
+        }
+      });
     }, 4000);
     $('textarea').css('overflow', 'hidden').autosize();
     setInputFocus('.js-focus-input');

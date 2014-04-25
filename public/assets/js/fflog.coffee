@@ -45,7 +45,10 @@ $ ->
 
 	
 	setTimeout(
-		-> if not $('.message').hasClass('no-remove') then $('.message').fadeOut(500, -> $('.message').remove())
+		-> 
+			$('.message').each ->
+				if not $(this).hasClass('no-remove') then $('.message').fadeOut(500, -> $('.message').remove())
+			return
 		4000
 	)
 
