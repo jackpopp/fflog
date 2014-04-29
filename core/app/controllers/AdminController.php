@@ -4,16 +4,24 @@ class AdminController extends BaseController
 {
 
 	protected $layout = 'master';
-	private $baseDir = "/../../../";
+	protected $fflog;
+	protected $fileHandler;
+
+	public function __construct(Fflog $fflog, FileHandler $fileHandler)
+	{
+		$this->fflog = $fflog;
+		$this->fileHandler = $fileHandler;
+	}
+
 	// go to admin dasbhoard
 
 	public function dashboard()
 	{
 		View::share('onDashboard', true);
 		$data = array(
-			'themesFolder' => array_diff(scandir(__DIR__.$this->baseDir.'themes'), array('.', '..', '.DS_Store')),
-			'siteSettings' => json_decode(file_get_contents(__DIR__.$this->baseDir.'files/site_settings.flg')),
-			'posts' => $this->fetchAllPosts()
+			'themesFolder' => array_diff(scandir($this->fileHandler->getThemePath()), array('.', '..', '.DS_Store')),
+			'siteSettings' => $this->fileHandler->fetchSiteSettings(),
+			'posts' => $this->fileHandler->fetchAllPosts()
 		);
 
 		$this->layout->content = View::make('admin.dashboard', $data);
@@ -39,7 +47,7 @@ class AdminController extends BaseController
 		$username = Input::get('username');
 		$password = Input::get('password');
 
-		$users = $this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->users;
+		$users = $this->fileHandler->fetchSiteSettings()->users;
 		foreach ($users as $key => $user) {
 			if ($user->username == $username && Hash::check($password, $user->password) )
 			{
@@ -55,7 +63,7 @@ class AdminController extends BaseController
 	public function createPost()
 	{
 		// add check for blog folder and add check for posts file
-		$posts = $this->getDecodedFile(__DIR__.$this->baseDir.'files/blog/posts.flg');
+		$posts = $this->fileHandler->fetchAllPosts();
 
 		$date = new DateTime();
 
@@ -83,7 +91,7 @@ class AdminController extends BaseController
 		else
 			$mergedPosts = $newPost;
 		//write posts to file
-		$this->savePosts($mergedPosts);
+		$this->fileHandler->writePosts($mergedPosts);
 
 		Session::flash('successMessage', 'Blog post added.');
 
@@ -92,14 +100,14 @@ class AdminController extends BaseController
 
 	public function editPost($slug, $key)
 	{
-		$post = $this->fetchSinglePost($slug, $key, $this->fetchAllPosts());
+		$post = $this->fileHandler->fetchSinglePost($slug, $key, $this->fileHandler->fetchAllPosts());
 		$this->layout->content = View::make('admin.edit_post', array('post' => $post, 'key' => $key));
 	}
 
 	public function updatePost($slug, $key)
 	{
-		$posts = $this->fetchAllPosts();
-		$post = $this->fetchSinglePost($slug, $key, $posts);
+		$posts = $this->fileHandler->fetchAllPosts();
+		$post = $this->fileHandler->fetchSinglePost($slug, $key, $posts);
 
 		// update the posts title and content
 		$post->title = Input::get('title');
@@ -115,7 +123,7 @@ class AdminController extends BaseController
 		$posts[$key] = $post;
 
 		//save the post and redirect to the dashboard
-		$this->savePosts($posts);
+		$this->fileHandler->writePosts($posts);
 
 		Session::flash('successMessage', 'Blog post updated.');
 
@@ -126,11 +134,11 @@ class AdminController extends BaseController
 	public function deletePost($slug, $key)
 	{
 		// unset the post and reindex the array
-		$posts = $this->fetchAllPosts();
+		$posts = $this->fileHandler->fetchAllPosts();
 		unset($posts[$key]);
 		$posts = array_values($posts);
 		// save the new posts array
-		$this->savePosts($posts);
+		$this->fileHandler->writePosts($posts);
 
 		Session::flash('successMessage', 'Blog post deleted.');
 		// return us back to admin
@@ -179,28 +187,9 @@ class AdminController extends BaseController
 		return $slug;
 	}
 
-	public function fetchAllPosts()
-	{
-		$posts = $this->getDecodedFile(__DIR__.$this->baseDir.'files/blog/posts.flg');
-
-		if (count($posts) == 0 || $posts == null)
-			return array();
-		else
-			return $posts;
-	}
-
-	public function fetchSinglePost($slug, $postKey, $posts)
-	{
-		foreach ($posts as $key => $post) {
-			if ($post->slug == $slug && $key == $postKey)
-				return $post;
-		}
-		return false;
-	}
-
 	public function savePosts($posts)
 	{
-		file_put_contents(__DIR__.$this->baseDir.'files/blog/posts.flg', json_encode($posts));
+		$this->fileHandler->writePosts($posts);
 	}
 
 	public function uploadImage($slug)
@@ -208,7 +197,7 @@ class AdminController extends BaseController
 		$image = null;
 		if (Input::hasFile('image'))
 		{
-		    Input::file('image')->move(__DIR__.$this->baseDir.'public/uploads', "{$slug}.".Input::file('image')->getClientOriginalExtension());
+		    Input::file('image')->move($this->fileHandler->getUploadPath(), "{$slug}.".Input::file('image')->getClientOriginalExtension());
 		    $image = Input::file('image')->getRealPath().'/'.$slug.'.'.Input::file('image')->getClientOriginalExtension();
 		}
 
@@ -217,22 +206,12 @@ class AdminController extends BaseController
 
 	public function updateSiteSettings()
 	{
-		$settings = $this->fetchSiteSettings();
+		$settings = $this->fileHandler->fetchSiteSettings();
 		$settings->blog_name = Input::get('blog_name');
 		$settings->theme = Input::get('theme');
-		$this->writeSettings($settings);
+		$this->fileHandler->writeSiteSettings($settings);
 
 		return Redirect::to('admin');
-	}
-
-	public function fetchSiteSettings()
-	{
-		return json_decode(file_get_contents(__DIR__.$this->baseDir.'/files/site_settings.flg'));
-	}
-
-	public function writeSettings($settings)
-	{
-		file_put_contents(__DIR__.$this->baseDir.'/files/site_settings.flg', json_encode($settings));
 	}
 
 }
