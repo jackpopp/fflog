@@ -1,6 +1,6 @@
 <?php require 'header.php'; ?>
 
-<?php foreach($posts as $post): ?>
+<?php foreach($posts->paginate()->limit(1)->get() as $post): ?>
 
 	<div class="row">
 

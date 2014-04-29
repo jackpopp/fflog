@@ -9,11 +9,22 @@ class BlogController extends BaseController
 	private $totalPosts = 0;
 	private $post = null;
 	protected $fflog;
+	protected $fileHandler;
+	protected $postHandler;
+	protected $blogName;
 
-	public function __construct(Fflog $fflog)
+	public function __construct(Fflog $fflog, FileHandler $fileHandler, PostHandler $postHandler)
 	{
 		$this->beforeFilter('@resolveTheme', array('only' => array('index', 'singlePost')));
 		$this->fflog = $fflog;
+		$this->fileHandler = $fileHandler;
+		$this->postHandler = $postHandler;
+		$this->blogName = $this->fileHandler->fetchSiteSettings()->blog_name;
+	}
+
+	public function getBlogName()
+	{
+		return $this->blogName;
 	}
 
 	public function setTheme($theme)
@@ -60,22 +71,24 @@ class BlogController extends BaseController
 		return $this->post;
 	}
 	
-	public function index()
+	public function index($page = 1)
 	{
-		$this->setPosts($this->fetchPosts());
-		$posts = $this->getPosts();
-		$blogName = $this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->blog_name;
+		//$posts = $this->postHandler->paginate()->page($page)->limit(1)->get();
+		// lets hand the postHanlder over to the template as a post variable and set the current page var
+		$posts = $this->postHandler->page($page);
+		$blogName = $this->getBlogName();
 		$fflog = $this->fflog;
-		require __DIR__.$this->baseDir.'themes/'.$this->getTheme().'/index.php';
+
+		require $this->fileHandler->fetchCurrentThemePath().'/index.php';
 	}
 
 	public function singlePost($slug)
 	{
 		$this->setPost($this->fetchPost($slug, $this->fetchPosts()));
 		$post = $this->getPost();
-		$blogName = $this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->blog_name;
+		$blogName = $this->getBlogName();
 		$fflog = $this->fflog;
-		require __DIR__.$this->baseDir.'themes/'.$this->getTheme().'/post.php';
+		require $this->fileHandler->fetchCurrentThemePath().'/post.php';
 	}
 
 	/**

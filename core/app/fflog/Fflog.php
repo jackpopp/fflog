@@ -4,6 +4,13 @@ class Fflog {
 
 	private $baseDir = "/../../../";
 	protected $mimeTypes = array('js'  => 'text/javascript','css' => 'text/css');
+	protected $fileHandler;
+	protected $postHandler;
+
+	public function __construct()
+	{
+
+	}
 
 	/**
 	* Returns an asset path that the router can use to resolve an asset from our theme
