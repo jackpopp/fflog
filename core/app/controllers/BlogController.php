@@ -3,11 +3,7 @@
 class BlogController extends BaseController 
 {
 
-	private $baseDir = "/../../../";
-	private $theme = '';
-	private $posts = array();
 	private $totalPosts = 0;
-	private $post = null;
 	protected $fflog;
 	protected $fileHandler;
 	protected $postHandler;
@@ -27,28 +23,6 @@ class BlogController extends BaseController
 		return $this->blogName;
 	}
 
-	public function setTheme($theme)
-	{
-		$this->theme = $theme;
-		return $this;
-	}
-
-	public function getTheme()
-	{
-		return $this->theme;
-	}
-
-	public function setPosts($posts)
-	{
-		$this->posts = $posts;
-		return $this;
-	}
-
-	public function getPosts()
-	{
-		return $this->posts;
-	}
-
 	public function setTotalPosts($totalPosts)
 	{
 		$this->totalPosts = $totalPosts;
@@ -60,17 +34,6 @@ class BlogController extends BaseController
 		return $this->totalPosts;
 	}
 
-	public function setPost($post)
-	{
-		$this->post = $post;
-		return $this;
-	}
-
-	public function getPost()
-	{
-		return $this->post;
-	}
-	
 	public function index($page = 1)
 	{
 		//$posts = $this->postHandler->paginate()->page($page)->limit(1)->get();
@@ -84,10 +47,10 @@ class BlogController extends BaseController
 
 	public function singlePost($slug)
 	{
-		$this->setPost($this->fetchPost($slug, $this->fetchPosts()));
-		$post = $this->getPost();
+		$post = $this->postHandler->single($slug);
 		$blogName = $this->getBlogName();
 		$fflog = $this->fflog;
+
 		require $this->fileHandler->fetchCurrentThemePath().'/post.php';
 	}
 
@@ -100,41 +63,8 @@ class BlogController extends BaseController
 
 	public function resolveTheme()
 	{
-		$this->setTheme($this->getDecodedFile(__DIR__.$this->baseDir.'files/site_settings.flg')->theme);
-		if ( ! file_exists(__DIR__.$this->baseDir.'themes/'.$this->getTheme()))
+		if ( ! file_exists($this->fileHandler->fetchCurrentThemePath()))
 			throw new Exception("No theme '{$this->getTheme()}' found!");
-	}
-
-	/**
-	* Returns a json decoded file based on the path provided
-	*
-	* @return mixed
-	*/
-
-	public function getDecodedFile($name)
-	{
-		if ( file_exists($name))
-			return json_decode(file_get_contents($name));
-		return false;
-	}
-
-	public function fetchPosts()
-	{
-		$posts = $this->getDecodedFile(__DIR__.$this->baseDir.'files/blog/posts.flg');
-
-		if (count($posts) == 0 || $posts == null)
-			return array();
-		else
-			return $posts;
-	}
-
-	public function fetchPost($slug, $posts)
-	{
-		foreach ($posts as $key => $post) {
-			if ($post->slug == $slug)
-				return $post;
-		}
-		return false;
 	}
 
 }

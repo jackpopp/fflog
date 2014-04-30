@@ -1,6 +1,6 @@
 <?php require 'header.php'; ?>
 
-<?php foreach($posts->paginate()->limit(1)->get() as $post): ?>
+<?php foreach($posts->paginate()->limit(2)->get() as $post): ?>
 
 	<div class="row">
 
@@ -23,5 +23,13 @@
 	</div>
 
 <?php endforeach; ?>
+
+<div class="row">
+
+	<div class="large-12">
+		<?php $posts->paginator(); ?>
+	</div>
+
+</div>
 
 <?php require 'footer.php'; ?>

@@ -68,7 +68,7 @@ class AdminController extends BaseController
 		$date = new DateTime();
 
 		// make out slug
-		$slug = $this->makeSlug($posts, Input::get('title'));
+		$slug = $this->postHandler->makeSlug($posts, Input::get('title'));
 
 		// upload file if one is found
 		$image = $this->uploadImage($slug);
@@ -112,7 +112,7 @@ class AdminController extends BaseController
 		// update the posts title and content
 		$post->title = Input::get('title');
 		$post->content = Input::get('content');
-		$post->slug = $this->makeSlug($posts, Input::get('title'));
+		$post->slug = $this->postHandler->makeSlug($posts, Input::get('title'));
 
 		// if image isnt null then update the image
 		$image = $this->uploadImage($slug);
@@ -143,53 +143,6 @@ class AdminController extends BaseController
 		Session::flash('successMessage', 'Blog post deleted.');
 		// return us back to admin
 		return Redirect::to('admin');
-	}
-
-	/**
-	* Returns a json decoded file based on the path provided
-	*
-	* @return mixed
-	*/
-
-	public function getDecodedFile($name)
-	{
-		if ( file_exists($name))
-			return json_decode(file_get_contents($name));
-		return false;
-	}
-
-	/**
-	* Creates a slug based on the page title and makes sure it doesnt clash with current slugs
-	*
-	* @return String
-	*/
-
-	public function makeSlug($posts, $title)
-	{
-		// todo remove any disallowed chars
-		$slug = strtolower($title);
-		$slug = str_replace(' ', '-', $slug);
-
-		// check if slug already exsists, if it does append a number to it
-		$duplicateValue = 0;
-
-		if ( count($posts) > 0 && $posts != null)
-		{
-			foreach ($posts as $key => $post) {
-				if ($post->slug == $slug)
-					$duplicateValue++;
-			}
-		}
-		
-		if ($duplicateValue > 0)
-			$slug = $slug.'-'.$duplicateValue;
-
-		return $slug;
-	}
-
-	public function savePosts($posts)
-	{
-		$this->fileHandler->writePosts($posts);
 	}
 
 	public function uploadImage($slug)
