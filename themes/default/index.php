@@ -20,7 +20,7 @@
 				<?php echo substr($post->content, 0, 150);?>...
 			</div>
 
-			<a href="post/<? echo $post->slug;?>">Read More</a> <br>
+			<a href="<?php echo URL::to('post/'.$post->slug);?>">Read More</a> <br>
 
 		</div>
 
