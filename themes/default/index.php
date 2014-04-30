@@ -1,24 +1,28 @@
 <?php require 'header.php'; ?>
 
-<?php foreach($posts->paginate()->limit(2)->get() as $post): ?>
+<?php foreach($posts->paginate()->limit(3)->get() as $post): ?>
 
 	<div class="row">
 
-		<h1>
-			<?php echo $post->title;?>
-		</h1>
+		<div class="large-12 columns">
 
-		<?php if ($post->image): ?>
+			<h2>
+				<?php echo $post->title;?>
+			</h2>
+
+			<?php if ($post->image): ?>
+				<div>
+					<img src="<?php echo URL::to('uploads') ?><?php echo $post->image ?>" style="width:300px; height: 300px;margin: 10px 0; border:1px solid black;">
+				</div>
+			<?php endif; ?>
+
 			<div>
-				<img src="<?php echo URL::to('uploads') ?><?php echo $post->image ?>" style="width:300px; height: 300px;margin: 10px 0; border:1px solid black;">
+				<?php echo substr($post->content, 0, 150);?>...
 			</div>
-		<?php endif; ?>
 
-		<div>
-			<?php echo substr($post->content, 0, 50);?>...
+			<a href="post/<? echo $post->slug;?>">Read More</a> <br>
+
 		</div>
-
-		<a href="post/<? echo $post->slug;?>">Read More</a> <br>
 
 	</div>
 

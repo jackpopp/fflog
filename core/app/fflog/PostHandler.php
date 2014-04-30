@@ -161,25 +161,26 @@ class PostHandler
 		}
 		else 
 		{
-			$links[] = "<li><a class='active' href='".URL::to('page/1')."'>1</a></li>";
+			$links[] = "<li><a class='active' href='".URL::to('')."'>1</a></li>";
 		}
 			
 
-		$loopAmount = ($total/$limit);
-		for ($i=2; $i < $loopAmount; $i++) 
+		$pages = ceil(($total/$limit));
+		for ($i=2; $i < $pages; $i++) 
 		{ 
-			$links[] = "<li><a href='".URL::to('page/'.$i)."'>{$i}</a></li>";
+			$active = (($page == $i) ? 'class="active"' : 'class=""');
+			$links[] = "<li><a $active href='".URL::to('page/'.$i)."'>{$i}</a></li>";
 		}
 
 		// only if we're not on the last one
-		if ( $page != ($total/$limit))
+		if ( $page != $pages)
 		{
 			$links[] = "<li><a href='".URL::to('page/'.($page + 1))."'>Next</a></li>";
-			$links[] = "<li><a href='".URL::to('page/'.($total/$limit))."'>Last</a></li>";
+			$links[] = "<li><a href='".URL::to('page/'.$pages)."'>Last</a></li>";
 		}
 		else 
 		{
-			$links[] = "<li><a class='active' href='".URL::to('page/'.($total/$limit))."'>".($total/$limit)."</a></li>";
+			$links[] = "<li><a class='active' href='".URL::to('page/'.$pages)."'>".$pages."</a></li>";
 		}
 			
 		echo '<ul class="paginator">'.implode('', $links).'</ul>';
