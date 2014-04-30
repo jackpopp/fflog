@@ -34,15 +34,36 @@ class BlogController extends BaseController
 		return $this->totalPosts;
 	}
 
-	public function index($page = 1)
-	{
-		//$posts = $this->postHandler->paginate()->page($page)->limit(1)->get();
-		// lets hand the postHanlder over to the template as a post variable and set the current page var
-		$posts = $this->postHandler->page($page);
-		$blogName = $this->getBlogName();
-		$fflog = $this->fflog;
+	/**
+	* Renders the index page from the selected template with posts
+	* If request is ajax then we return a json posts array
+	*
+	*/
 
-		require $this->fileHandler->fetchCurrentThemePath().'/index.php';
+	public function index($page = 1, $limit = null)
+	{
+		if (Request::isJson())
+		{
+		    // look for a limit value, and if there is one set it
+		    $posts = $this->postHandler->page($page)->paginate();
+
+		    if (Input::get('limit') && intval(Input::get('limit')))
+		    	$posts = $posts->limit(Input::get('limit'));
+
+		   	if ($limit != null && is_numeric(intval($limit)))
+		   		$posts = $posts->limit(intval($limit));
+
+		    return Response::json($posts->get());
+		}
+		else 
+		{
+			//$posts = $this->postHandler->paginate()->page($page)->limit(1)->get();
+			// lets hand the postHanlder over to the template as a post variable and set the current page var
+			$posts = $this->postHandler->page($page);
+			$blogName = $this->getBlogName();
+			$fflog = $this->fflog;
+			require $this->fileHandler->fetchCurrentThemePath().'/index.php';
+		}
 	}
 
 	public function singlePost($slug)
