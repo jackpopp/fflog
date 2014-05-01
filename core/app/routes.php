@@ -26,7 +26,7 @@ Route::group(array('before' => 'installCheck'), function()
 
 	Route::get('post/{slug}', 'BlogController@singlePost');
 
-	Route::get('tagged/{tag}', 'BlogController@BlogController@tagged');
+	Route::get('tagged/{tag}', 'BlogController@tagged');
 
 	Route::get('admin/login', 'AdminController@login');
 	Route::post('admin/login', 'AdminController@startAdminSession');

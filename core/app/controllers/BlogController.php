@@ -66,6 +66,15 @@ class BlogController extends BaseController
 		}
 	}
 
+	public function tagged($tag)
+	{
+		$posts = $this->postHandler->fetchTaggedPosts($tag);
+		$blogName = $this->getBlogName();
+		$fflog = $this->fflog;
+	
+		require $this->fileHandler->fetchCurrentThemePath().'/tagged.php';
+	}
+
 	public function singlePost($slug)
 	{
 		$post = $this->postHandler->single($slug);

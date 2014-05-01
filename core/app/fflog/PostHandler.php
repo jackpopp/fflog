@@ -9,6 +9,7 @@ class PostHandler
 	protected $page = 1;
 	protected $slug;
 	protected $postKey;
+	const DELIMITER = '|<>|';
 
 	public function __construct(FileHandler $fileHandler)
 	{
@@ -92,6 +93,17 @@ class PostHandler
 		return $this->fileHandler->fetchAllPosts();
 	}
 
+	public function fetchTaggedPosts($tag)
+	{
+		$posts = array();
+		foreach ($this->fileHandler->fetchAllPosts() as $key => $post) {
+			if (in_array($tag, explode(self::DELIMITER, $post->tags)))
+				$posts[] = $post;
+		}
+
+		return $posts;
+	}
+
 	/**
 	* Fetches a single post based ona slug, throws exception if none is found
 	*
@@ -138,6 +150,22 @@ class PostHandler
 		return $slug;
 	}
 
+	public function fetchTags($post)
+	{
+		return explode(self::DELIMITER, $post->tags);
+	}
+
+	public function fetchTagLinks($post)
+	{
+		$tags = explode(self::DELIMITER, $post->tags);
+		$tagLinkArray = array();
+		foreach ($tags as $key => $value) {
+			$tagLinkArray[] = '<a href="'.URL::to('tagged/'.$value).'">'.$value.'</a>';
+		}
+
+		return implode(' ', $tagLinkArray);
+	}
+
 	/**
 	* Builds a paginator
 	*
@@ -148,41 +176,45 @@ class PostHandler
 		$page = $this->getPage();
 		$limit = $this->getLimit();
 		$total = count($this->all());
+		$pages = ceil(($total/$limit));
 
 		// remove two as we dont loop the first and last sections
 		$links = array();
+
+		// check if pages is more than limit
+		if ($pages > $limit)
+		{
+			// only if we're not on the first one
+			if ( $page != 1)
+			{
+				$links[] = "<li><a href='".URL::to('page/1')."'>First</a></li>";
+				$links[] = "<li><a href='".URL::to('page/'.($page - 1))."'>Prev</a></li>";
+			}
+			else 
+			{
+				$links[] = "<li><a class='active' href='".URL::to('')."'>1</a></li>";
+			}
+				
+
+			for ($i=2; $i < $pages; $i++) 
+			{ 
+				$active = (($page == $i) ? 'class="active"' : 'class=""');
+				$links[] = "<li><a $active href='".URL::to('page/'.$i)."'>{$i}</a></li>";
+			}
+
+			// only if we're not on the last one
+			if ( $page != $pages)
+			{
+				$links[] = "<li><a href='".URL::to('page/'.($page + 1))."'>Next</a></li>";
+				$links[] = "<li><a href='".URL::to('page/'.$pages)."'>Last</a></li>";
+			}
+			else 
+			{
+				$links[] = "<li><a class='active' href='".URL::to('page/'.$pages)."'>".$pages."</a></li>";
+			}
+				
+			echo '<ul class="paginator">'.implode('', $links).'</ul>';	
+		}
 		
-
-		// only if we're not on the first one
-		if ( $page != 1)
-		{
-			$links[] = "<li><a href='".URL::to('page/1')."'>First</a></li>";
-			$links[] = "<li><a href='".URL::to('page/'.($page - 1))."'>Prev</a></li>";
-		}
-		else 
-		{
-			$links[] = "<li><a class='active' href='".URL::to('')."'>1</a></li>";
-		}
-			
-
-		$pages = ceil(($total/$limit));
-		for ($i=2; $i < $pages; $i++) 
-		{ 
-			$active = (($page == $i) ? 'class="active"' : 'class=""');
-			$links[] = "<li><a $active href='".URL::to('page/'.$i)."'>{$i}</a></li>";
-		}
-
-		// only if we're not on the last one
-		if ( $page != $pages)
-		{
-			$links[] = "<li><a href='".URL::to('page/'.($page + 1))."'>Next</a></li>";
-			$links[] = "<li><a href='".URL::to('page/'.$pages)."'>Last</a></li>";
-		}
-		else 
-		{
-			$links[] = "<li><a class='active' href='".URL::to('page/'.$pages)."'>".$pages."</a></li>";
-		}
-			
-		echo '<ul class="paginator">'.implode('', $links).'</ul>';
 	}
 }

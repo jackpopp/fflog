@@ -18,6 +18,12 @@
 			<?php echo $post->content;?>
 		</div>
 
+		<br>
+
+		<p>
+			Post Tags <?php echo $this->postHandler->fetchTagLinks($post); ?>
+		</p>
+
 	</div>
 
 </div>
