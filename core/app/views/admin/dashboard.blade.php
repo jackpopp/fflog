@@ -5,13 +5,18 @@
 		</h1>
 		<form class="js-validate-form" action="{{ URL::to('admin/post') }}" method="post" enctype="multipart/form-data">
 			<div class="">
-				<input class="js-focus-input" type="text" placeholder="Enter Title" name="title" autocomplete="off">
+				<input class="js-focus-input required" type="text" placeholder="Enter Title" name="title" autocomplete="off">
+			</div>
+			<div class="">
+				<input class="js-tags-input" type="text" placeholder="Enter Tags" autocomplete="off">
+				<div class="tag-holder"></div>
+				<input class="js-tags" type="hidden" name="tags">
 			</div>
 			<div class="input-file">
 				<label>Add Image</label> <input type="file" name="image">
 			</div>
 			<div class="">
-				<textarea name="content" placeholder="Enter Content"></textarea>
+				<textarea class="required" name="content" placeholder="Enter Content"></textarea>
 			</div>
 			<button>Add</button>
 		</form>

@@ -6,7 +6,18 @@
 		<form class="js-validate-form" action="{{ URL::to('admin/posts/edit') }}/{{ $post->slug }}/{{ $key }}" method="post" enctype="multipart/form-data">
 			<div class="">
 				<label class="hidden">Title</label>
-				<input class="js-focus-input" type="text" placeholder="Title" name="title" value="{{ $post->title }}" autocomplete="off">
+				<input class="js-focus-input required" type="text" placeholder="Title" name="title" value="{{ $post->title }}" autocomplete="off">
+			</div>
+			<div class="">
+				<input class="js-tags-input" type="text" placeholder="Enter Tags" autocomplete="off">
+				<div class="tag-holder">
+					@if (isset($post->tags))
+						<?php foreach (explode('|<>|', $post->tags) as $tag): ?>
+							<div class="tag-name" data-tag="{{$tag}}">{{$tag}}<span class="js-tag-remove"> x</span></div>
+						<?php endforeach; ?>
+					@endif
+				</div>
+				<input class="js-tags" type="hidden" name="tags" value="<?php echo (isset($post->tags) ? $post->tags : '') ?>">
 			</div>
 			<div class="">
 				@if ($post->image != null)
@@ -20,7 +31,7 @@
 			</div>
 			<div class="">
 				<label class="hidden">Content</label>
-				<textarea name="content">{{$post->content}}</textarea>
+				<textarea class="required" name="content">{{$post->content}}</textarea>
 			</div>
 			<button>Update</button>
 		</form>

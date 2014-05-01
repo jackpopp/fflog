@@ -6,11 +6,13 @@ class AdminController extends BaseController
 	protected $layout = 'master';
 	protected $fflog;
 	protected $fileHandler;
+	protected $postHandler;
 
-	public function __construct(Fflog $fflog, FileHandler $fileHandler)
+	public function __construct(Fflog $fflog, FileHandler $fileHandler, PostHandler $postHandler)
 	{
 		$this->fflog = $fflog;
 		$this->fileHandler = $fileHandler;
+		$this->postHandler = $postHandler;
 	}
 
 	// go to admin dasbhoard
@@ -81,6 +83,7 @@ class AdminController extends BaseController
 				'timestamp' => $date->getTimestamp(),
 				"user"      => 0,
 				"image"     => $image,
+				"tags"      => Input::get('tags'),
 				"content"   => Input::get('content')
 			)
 		);
@@ -111,6 +114,7 @@ class AdminController extends BaseController
 
 		// update the posts title and content
 		$post->title = Input::get('title');
+		$post->tags = Input::get('tags');
 		$post->content = Input::get('content');
 		$post->slug = $this->postHandler->makeSlug($posts, Input::get('title'));
 

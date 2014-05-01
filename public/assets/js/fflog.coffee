@@ -1,3 +1,5 @@
+DELIMITER = '|<>|'
+
 # Displays an admin section based on the selected target
 
 showSection = (target) ->
@@ -24,7 +26,7 @@ setInputFocus = (targetClass) ->
 
 validateInputs = (targetClass) ->
 	invalid = false
-	$(targetClass).find('input[type=text], textarea').each -> if $(this).val() is '' then invalid = true
+	$(targetClass).find('input[type=text], textarea').each -> if $(this).hasClass('required') and $(this).val() is '' then invalid = true
 
 	if invalid is false
 		targetClass.submit()
@@ -65,3 +67,36 @@ $ ->
 		showSection($(e.target))
 		e.preventDefault()
 		return
+
+	$('.js-tags-input').keydown (e) -> 
+		if e.keyCode is 13
+			e.preventDefault()
+
+			val = $('.js-tags').val()
+			if val isnt ''
+				valArray = val.split(DELIMITER)
+				valArray.push $(e.target).val()
+				val = valArray.join(DELIMITER)
+			else
+				val = $(e.target).val()
+			$('.js-tags').val(val)
+
+			$('.tag-holder').append('<div class="tag-name" data-tag="'+$(e.target).val()+'">'+$(e.target).val()+'<span class="js-tag-remove"> x</span></div>')
+
+			$(e.target).val('')
+		return
+
+	$('body').on 'click', '.js-tag-remove', (e) -> 
+		# remove
+		$(e.target).parent().remove()
+		# rebuild the tags
+		valArray = []
+		$('.tag-name').each (e) -> valArray.push $(this).data('tag')
+		$('.js-tags').val(valArray.join(DELIMITER))
+
+
+
+
+
+
+

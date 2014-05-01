@@ -20,9 +20,13 @@ Route::group(array('before' => 'installCheck'), function()
 {
 
 	Route::get('/', 'BlogController@index');
+
 	Route::get('/page/{number}', 'BlogController@index');
 	Route::get('/page/{number}/limit/{limit}', 'BlogController@index');
+
 	Route::get('post/{slug}', 'BlogController@singlePost');
+
+	Route::get('tagged/{tag}', 'BlogController@BlogController@tagged');
 
 	Route::get('admin/login', 'AdminController@login');
 	Route::post('admin/login', 'AdminController@startAdminSession');
