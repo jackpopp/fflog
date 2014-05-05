@@ -182,7 +182,7 @@ class PostHandler
 		$links = array();
 
 		// check if pages is more than limit
-		if ($pages > $limit)
+		if ($pages > 1)
 		{
 			// only if we're not on the first one
 			if ( $page != 1)

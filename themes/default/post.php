@@ -15,7 +15,9 @@
 		<?php endif; ?>
 
 		<div>
-			<?php echo $post->content;?>
+			<p>
+				<?php echo $post->content;?>
+			</p>
 		</div>
 
 		<br>

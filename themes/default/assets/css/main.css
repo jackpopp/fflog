@@ -14,3 +14,19 @@ body {
 .active {
 	color: blue!important;
 }
+
+header {
+	background: rgb(51, 51, 51);
+}
+
+header h1 {
+	color: white;
+}
+
+a {
+	color: rgb(92, 37, 173);
+}
+
+a:hover {
+	color: rgb(61, 21, 119);
+}

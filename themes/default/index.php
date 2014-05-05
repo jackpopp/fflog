@@ -1,6 +1,6 @@
 <?php require 'header.php'; ?>
 
-<?php foreach($posts->paginate()->limit(1)->get() as $post): ?>
+<?php foreach($posts->paginate()->limit(2)->get() as $post): ?>
 
 	<div class="row">
 
@@ -17,16 +17,18 @@
 			<?php endif; ?>
 
 			<div>
-				<?php echo substr($post->content, 0, 150);?>...
+				<p>
+					<?php echo substr($post->content, 0, 150);?>...
+				</p>
 			</div>
 
 			<br>
 
-			<p>
-				Post Tags <?php echo $this->postHandler->fetchTagLinks($post); ?>
-			</p>
+			<a href="<?php echo URL::to('post/'.$post->slug);?>">Read More</a> <br> <br>
 
-			<a href="<?php echo URL::to('post/'.$post->slug);?>">Read More</a> <br>
+			<p>
+				Post tags <?php echo $this->postHandler->fetchTagLinks($post); ?>
+			</p>
 
 		</div>
 

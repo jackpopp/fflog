@@ -8,8 +8,7 @@
 	</head>
 	<body>
 
-		<header class="row">
-			
+		<header class="row heading">
 			<div class="large-12 columns">
 				<h1>
 					<?echo $blogName?>

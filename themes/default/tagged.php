@@ -26,7 +26,9 @@
 			<?php endif; ?>
 
 			<div>
-				<?php echo substr($post->content, 0, 150);?>...
+				<p>
+					<?php echo substr($post->content, 0, 150);?>...
+				</p>
 			</div>
 
 			<br>
