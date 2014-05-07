@@ -1,6 +1,6 @@
 		<footer class="row">
 			<div class="large-12 columns">
-				Footer
+				&copy; <?php echo date("Y");?> Jack Hannigan Popp 
 			</div>
 		</footer>
 	</body>

@@ -3,7 +3,6 @@
 <head>
 	
 	<title>Fflog</title>
-	<!--<link href='http://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'> -->
 	<link rel="stylesheet" type="text/css" href="{{URL::to('assets/css/normalize.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{URL::to('assets/css/foundation.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{URL::to('assets/css/fflog.css')}}">
@@ -18,13 +17,13 @@
 				<div class="large-12 columns">
 					<ul class="left show-for-small">
 						<li>
-							<a href="{{ URL::to('admin')}}">Fflog</a>
+							<a href="{{ URL::to('')}}">Fflog</a>
 						</li>
 					</ul>
 
 					<ul class="left hide-for-small">
 						<li>
-							<a href="{{ URL::to('admin')}}">Fflog</a>
+							<a href="{{ URL::to('')}}">Fflog</a>
 						</li>
 						@if ( Session::get('isLoggedIn') && ( isset($onDashboard)) )
 						<li>

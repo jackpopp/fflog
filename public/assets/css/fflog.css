@@ -70,7 +70,8 @@ textarea {
   font-size: 26px;
   resize: none;
   box-shadow: 0 0 0;
-  padding-left: 0px; }
+  padding-left: 0px;
+  line-height: 2; }
   textarea:focus {
     border-top: 0px solid white;
     border-left: 0px solid white;

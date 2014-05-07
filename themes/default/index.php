@@ -18,7 +18,7 @@
 
 			<div>
 				<p>
-					<?php echo substr($post->content, 0, 150);?>...
+					<?php echo nl2br(substr($post->content, 0, 150));?>...
 				</p>
 			</div>
 
@@ -29,6 +29,8 @@
 			<p>
 				Post tags <?php echo $this->postHandler->fetchTagLinks($post); ?>
 			</p>
+
+			<hr>
 
 		</div>
 

@@ -4,9 +4,11 @@
 
 	<div class="large-12 columns">
 
-		<h1>
+		<h2>
 			<?php echo $post->title;?>
-		</h1>
+		</h2>
+
+		<hr>
 
 		<?php if ($post->image): ?>
 			<div>
@@ -16,7 +18,7 @@
 
 		<div>
 			<p>
-				<?php echo $post->content;?>
+				<?php echo nl2br($post->content);?>
 			</p>
 		</div>
 
@@ -25,6 +27,8 @@
 		<p>
 			Post Tags <?php echo $this->postHandler->fetchTagLinks($post); ?>
 		</p>
+
+		<hr>
 
 	</div>
 
