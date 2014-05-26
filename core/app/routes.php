@@ -43,7 +43,7 @@ Route::group(array('before' => 'installCheck'), function()
 
 	Route::group(array('before' => 'adminAuth'), function(){
 
-		Route::post('admin/post', 'AdminController@createPost');
+		Route::post('admin/posts', 'AdminController@createPost');
 		Route::get('admin', 'AdminController@dashboard');
 		Route::get('admin/posts/edit/{slug}/{key}', 'AdminController@editPost');
 		Route::post('admin/posts/edit/{slug}/{key}', 'AdminController@updatePost');

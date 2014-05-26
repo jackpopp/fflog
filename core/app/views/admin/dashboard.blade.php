@@ -3,7 +3,7 @@
 		<h1>
 			New Post
 		</h1>
-		<form class="js-validate-form" action="{{ URL::to('admin/post') }}" method="post" enctype="multipart/form-data">
+		<form class="js-validate-form" action="{{ URL::to('admin/posts') }}" method="post" enctype="multipart/form-data">
 			<div class="">
 				<input class="js-focus-input required" type="text" placeholder="Enter Title" name="title" autocomplete="off">
 			</div>

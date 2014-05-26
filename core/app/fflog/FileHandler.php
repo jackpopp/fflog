@@ -17,7 +17,7 @@ class FileHandler
 
 	public function getPostsPath()
 	{
-		return $this->postPath;
+		return $this->postsPath;
 	}
 
 	public function getSiteSettingsPath()
@@ -50,7 +50,7 @@ class FileHandler
 
 	public function fetchAllPosts()
 	{
-		$posts = $this->fetchJsonFile($this->postsPath);
+		$posts = $this->fetchJsonFile($this->getPostsPath());
 
 		if (count($posts) == 0 || $posts == null)
 			return array();
@@ -60,7 +60,7 @@ class FileHandler
 
 	public function writePosts($posts)
 	{
-		return $this->writeJsonFile($this->postsPath, $posts);
+		return $this->writeJsonFile($this->getPostsPath(), $posts);
 	}
 
 	public function fetchSinglePost($slug, $postKey, $posts)
